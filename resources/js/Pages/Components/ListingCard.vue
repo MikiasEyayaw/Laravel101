@@ -1,6 +1,5 @@
 <template>
-  <Link
-    :href="`/listings/${listing.id}`"
+  <div
     class="group block rounded-2xl overflow-hidden transition-all duration-300 relative"
     style="background: #16140f; border: 1px solid #2a2520;"
     @mouseover="e => { e.currentTarget.style.borderColor='rgba(240,160,71,0.35)'; e.currentTarget.style.transform='translateY(-2px)'; e.currentTarget.style.boxShadow='0 12px 40px rgba(0,0,0,0.5)'; }"
@@ -63,15 +62,15 @@
 
     <!-- Card Footer -->
     <div class="flex items-center justify-between px-5 py-3" style="background: #131109; border-top: 1px solid #2a2520;">
-      <span class="text-xs font-semibold flex items-center gap-1 transition-all duration-200 group-hover:gap-2" style="color: #f0a047;">
+      <Link :href="`/listings/${listing.id}`" class="text-xs font-semibold flex items-center gap-1 transition-all duration-200 group-hover:gap-2" style="color: #f0a047;">
         View Gig
         <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
           <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/>
         </svg>
-      </span>
+      </Link>
     </div>
 
-  </Link>
+  </div>
 </template>
 
 <script setup>
