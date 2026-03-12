@@ -27,9 +27,16 @@ class ListingController extends Controller
         $query = Listing::query();
 
         if (request('keywords')) {
-            $query->where('title', 'like', '%' . request('keywords') . '%')
-                ->orWhere('description', 'like', '%' . request('keywords') . '%')
-                ->orWhere('company', 'like', '%' . request('keywords') . '%');
+            $query->where(function($q) {
+                $q->where('title', 'like', '%' . request('keywords') . '%')
+                  ->orWhere('description', 'like', '%' . request('keywords') . '%')
+                  ->orWhere('company', 'like', '%' . request('keywords') . '%');
+            });
+        }
+
+        if (request('tag')) {
+            // match tag anywhere in comma-separated list
+            $query->where('tags', 'like', '%' . request('tag') . '%');
         }
 
         $listings = $query->latest()->paginate(6)->withQueryString();
@@ -40,7 +47,7 @@ class ListingController extends Controller
                 'current_page' => $listings->currentPage(),
                 'last_page' => $listings->lastPage(),
             ],
-            'filters' => request()->only(['keywords'])
+            'filters' => request()->only(['keywords', 'tag'])
         ]);
     }
     //show show Form
@@ -55,7 +62,7 @@ class ListingController extends Controller
     {
         return Inertia::render('Listings/Show', [
             'listing' => $listing,
-            'filters' => request()->only(['keywords'])
+            'filters' => request()->only(['keywords','tag'])
         ]);
     }
     //show create Form

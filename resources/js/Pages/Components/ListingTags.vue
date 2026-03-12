@@ -1,9 +1,10 @@
 <template>
   <div class="flex flex-wrap gap-1.5">
-    <RouterLink
+    <Link
       v-for="tag in tagList"
       :key="tag"
-      :to="`/?tag=${encodeURIComponent(tag)}`"
+      :href="`/?tag=${encodeURIComponent(tag)}`"
+      preserve-scroll
       class="inline-block text-xs font-semibold px-2.5 py-1 rounded-md transition-all duration-150"
       style="background: rgba(240,160,71,0.1); color: #c9a97a; border: 1px solid rgba(240,160,71,0.15);"
       @click.stop
@@ -11,12 +12,13 @@
       @mouseleave="e => { e.currentTarget.style.background='rgba(240,160,71,0.1)'; e.currentTarget.style.color='#c9a97a'; }"
     >
       {{ tag }}
-    </RouterLink>
+    </Link>
   </div>
 </template>
 
 <script setup>
 import { computed } from 'vue'
+import { Link } from '@inertiajs/vue3'
 
 const props = defineProps({
   tags: { type: [String, Array], default: '' },

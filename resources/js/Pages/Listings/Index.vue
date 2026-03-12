@@ -19,12 +19,14 @@
           <span class="text-sm" style="color: #4a3f32;">
             {{ listings.length }} listing{{ listings.length !== 1 ? 's' : '' }}
             <template v-if="searchKeywords"> for "<em class="not-italic" style="color: #c9a97a;">{{ searchKeywords }}</em>"</template>
+            <template v-else-if="tagFilter"> tagged "<em class="not-italic" style="color: #c9a97a;">{{ tagFilter }}</em>"</template>
           </span>
         </div>
 
-        <RouterLink
-          v-if="searchKeywords"
-          to="/"
+        <Link
+          v-if="searchKeywords || tagFilter"
+          :href="'/'"
+          preserve-scroll
           class="inline-flex items-center gap-1.5 text-xs font-medium transition-colors duration-150"
           style="color: #4a3f32;"
           @mouseover="e => e.currentTarget.style.color='#f0a047'"
@@ -34,7 +36,7 @@
             <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
           </svg>
           Clear filter
-        </RouterLink>
+        </Link>
       </div>
 
       <!-- Empty State -->
@@ -110,7 +112,7 @@
 
 <script setup>
 import { computed } from 'vue'
-import { router, usePage } from '@inertiajs/vue3'
+import { router, usePage, Link } from '@inertiajs/vue3'
 import Layout from '@/Pages/Layout.vue'
 import Hero from '@/Pages/Partials/_Hero.vue'
 import Search from '@/Pages/Partials/_Search.vue'
@@ -130,6 +132,8 @@ const props = defineProps({
 })
 
 const searchKeywords = computed(() => page.props.filters?.keywords ?? '')
+const tagFilter = computed(() => page.props.filters?.tag ?? '')
+
 function changePage(p) {
   router.get(
     '/',
