@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Validation\Rule;
+use Illuminate\Http\RedirectResponse;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -213,11 +214,11 @@ class AdminController extends Controller
         ]);
     }
 
-    public function manageListings(): Response
+    public function manageListings(): Response|RedirectResponse
     {
         // Debug: Check if admin is authenticated
         if (!Auth::guard('admin')->check()) {
-            \Log::error('Admin not authenticated in manageListings');
+            Log::error('Admin not authenticated in manageListings');
             return redirect()->route('admin.login');
         }
         
@@ -264,7 +265,7 @@ class AdminController extends Controller
         $listing = Listing::findOrFail($id);
         
         // Debug: Log the listing data
-        \Log::info('Edit Listing Data:', $listing->toArray());
+        Log::info('Edit Listing Data:', $listing->toArray());
 
         return Inertia::render('Admin/Pages/EditListing', [
             'listing' => $listing,
@@ -276,9 +277,9 @@ class AdminController extends Controller
         $listing = Listing::findOrFail($id);
         
         // Debug: Log all request data
-        \Log::info('Update Listing Request Data', $request->all());
-        \Log::info('Website field', ['website' => $request->input('website')]);
-        \Log::info('Has file', ['has_file' => $request->hasFile('logo')]);
+        Log::info('Update Listing Request Data', $request->all());
+        Log::info('Website field', ['website' => $request->input('website')]);
+        Log::info('Has file', ['has_file' => $request->hasFile('logo')]);
         
         $request->validate([
             'title' => 'required|string|max:255',
@@ -417,6 +418,7 @@ class AdminController extends Controller
     // Admin management
     public function updateAdminProfile(Request $request)
     {
+        /** @var Admin $admin */
         $admin = Auth::guard('admin')->user();
         
         $request->validate([
@@ -434,34 +436,35 @@ class AdminController extends Controller
 
     public function updateAdminPassword(Request $request)
     {
-        \Log::info('Password update request received');
-        \Log::info('Request data: ' . json_encode($request->all()));
+        Log::info('Password update request received');
+        Log::info('Request data: ' . json_encode($request->all()));
         
         $request->validate([
             'current_password' => 'required',
             'password' => 'required|string|min:6|confirmed',
         ]);
 
-        \Log::info('Password validation passed');
+        Log::info('Password validation passed');
 
+        /** @var Admin $admin */
         $admin = Auth::guard('admin')->user();
         
-        \Log::info('Admin found: ' . $admin->email);
-        \Log::info('Current password hash: ' . $admin->password);
-        \Log::info('Entered current password: ' . $request->current_password);
+        Log::info('Admin found: ' . $admin->email);
+        Log::info('Current password hash: ' . $admin->password);
+        Log::info('Entered current password: ' . $request->current_password);
         
         if (!Hash::check($request->current_password, $admin->password)) {
-            \Log::info('Current password check failed');
+            Log::info('Current password check failed');
             return redirect()->back()->withErrors(['current_password' => 'Current password is incorrect']);
         }
 
-        \Log::info('Password verification passed, updating password');
+        Log::info('Password verification passed, updating password');
 
         $admin->update([
             'password' => Hash::make($request->password),
         ]);
 
-        \Log::info('Password updated successfully');
+        Log::info('Password updated successfully');
 
         return redirect()->back()->with('success', 'Password updated successfully.');
     }
