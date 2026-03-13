@@ -15,6 +15,11 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->web([
             HandleInertiaRequests::class,
         ]);
+
+        $middleware->alias([
+            'approved.user' => \App\Http\Middleware\ApprovedUserMiddleware::class,
+            'admin.auth' => \App\Http\Middleware\RedirectIfAdminAuthenticated::class,
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //

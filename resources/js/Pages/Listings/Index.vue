@@ -4,6 +4,9 @@
     <!-- Hero Section -->
     <Hero />
 
+    <!-- Featured Billboard -->
+    <FeaturedBillboard :featured-listing="featuredListing" />
+
     <!-- Search Section -->
     <Search />
 
@@ -115,6 +118,7 @@ import { computed } from 'vue'
 import { router, usePage, Link } from '@inertiajs/vue3'
 import Layout from '@/Pages/Layout.vue'
 import Hero from '@/Pages/Partials/_Hero.vue'
+import FeaturedBillboard from '@/Pages/Partials/FeaturedBillboard.vue'
 import Search from '@/Pages/Partials/_Search.vue'
 import ListingCard from '@/Pages/Components/ListingCard.vue'
 
@@ -126,6 +130,10 @@ const props = defineProps({
     default: () => [],
   },
   pagination: {
+    type: Object,
+    default: null,
+  },
+  featuredListing: {
     type: Object,
     default: null,
   },

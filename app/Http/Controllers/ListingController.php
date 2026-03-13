@@ -26,6 +26,9 @@ class ListingController extends Controller
     {
         $query = Listing::query();
 
+        // Only show approved listings
+        $query->where('is_approved', true);
+
         if (request('keywords')) {
             $query->where(function($q) {
                 $q->where('title', 'like', '%' . request('keywords') . '%')
@@ -41,13 +44,20 @@ class ListingController extends Controller
 
         $listings = $query->latest()->paginate(6)->withQueryString();
 
+        // Get one random featured listing
+        $featuredListing = Listing::where('is_approved', true)
+            ->where('featured_until', '>', now())
+            ->inRandomOrder()
+            ->first();
+
         return Inertia::render('Listings/Index', [
             'listings' => $listings->items(),
             'pagination' => [
                 'current_page' => $listings->currentPage(),
                 'last_page' => $listings->lastPage(),
             ],
-            'filters' => request()->only(['keywords', 'tag'])
+            'filters' => request()->only(['keywords', 'tag']),
+            'featuredListing' => $featuredListing
         ]);
     }
     //show show Form
@@ -60,6 +70,11 @@ class ListingController extends Controller
 
     public function show(Listing $listing)
     {
+        // Only show approved listings
+        if (!$listing->is_approved) {
+            abort(404);
+        }
+
         return Inertia::render('Listings/Show', [
             'listing' => $listing,
             'filters' => request()->only(['keywords','tag'])

@@ -4,6 +4,7 @@
 
 use App\Http\Controllers\ListingController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\AdminController;
 use App\Models\Listing;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
@@ -18,22 +19,22 @@ Route::get('/test', function () {
 Route::get('/', [ListingController::class,'index']);
 
 //Show create form
-Route::get('/listings/create', [ListingController::class,'create'])->middleware('auth');
+Route::get('/listings/create', [ListingController::class,'create'])->middleware(['auth', 'approved.user']);
 
 //Store listing Data
-Route::post('/listings', [ListingController::class, 'store' ])->middleware('auth');
+Route::post('/listings', [ListingController::class, 'store' ])->middleware(['auth', 'approved.user']);
 
 //Store edit form
-route::get('/listings/{listing}/edit',[ListingController::class,'edit'])->middleware('auth');
+route::get('/listings/{listing}/edit',[ListingController::class,'edit'])->middleware(['auth', 'approved.user']);
 
 //Edit submit to update
-route::put('/listings/{listing}',[ListingController::class,'update'])->middleware('auth');
+route::put('/listings/{listing}',[ListingController::class,'update'])->middleware(['auth', 'approved.user']);
 
 //Delete Listing
-route::delete('/listings/{listing}',[ListingController::class,'destroy'])->middleware('auth');
+route::delete('/listings/{listing}',[ListingController::class,'destroy'])->middleware(['auth', 'approved.user']);
 
 //Manage listings
-Route::get('listings/manage',[ListingController::class,'manage'])->middleware('auth');
+Route::get('listings/manage',[ListingController::class,'manage'])->middleware(['auth', 'approved.user']);
 
 //single listing
 Route::get('/listings/{listing}', [ListingController::class, 'show' ]);
@@ -55,6 +56,47 @@ Route::get('/login',[UserController::class,'login'])->name('login')->middleware(
 Route::post('/users/authenticate',[UserController::class,'authenticate']);
 
 Route::post('/listings/{listing}/apply', [ListingController::class, 'apply']);
+
+// Admin routes
+Route::prefix('admin')->name('admin.')->group(function () {
+    Route::get('/login', [AdminController::class, 'showLoginForm'])->name('login');
+    Route::post('/login', [AdminController::class, 'login']);
+    
+    Route::middleware('admin.auth')->group(function () {
+        Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
+        Route::get('/settings', [AdminController::class, 'settings'])->name('settings');
+        Route::post('/settings', [AdminController::class, 'updateSystemSettings'])->name('settings.update');
+        
+        // Admin profile management
+        Route::post('/admin/profile', [AdminController::class, 'updateAdminProfile'])->name('admin.profile.update');
+        Route::post('/admin/password', [AdminController::class, 'updateAdminPassword'])->name('admin.password.update');
+        
+        // User management routes
+        Route::get('/users', [AdminController::class, 'users'])->name('users.index');
+        Route::get('/users/pending', [AdminController::class, 'pendingUsers'])->name('users.pending');
+        Route::get('/users/{id}/edit', [AdminController::class, 'editUser'])->name('users.edit');
+        Route::put('/users/{id}', [AdminController::class, 'updateUser'])->name('users.update');
+        Route::post('/users/{id}/approve', [AdminController::class, 'approveUser'])->name('users.approve');
+        Route::post('/users/{id}/reject', [AdminController::class, 'rejectUser'])->name('users.reject');
+        Route::post('/users/{id}/activate', [AdminController::class, 'activateUser'])->name('users.activate');
+        Route::post('/users/{id}/deactivate', [AdminController::class, 'deactivateUser'])->name('users.deactivate');
+        Route::delete('/users/{id}', [AdminController::class, 'deleteUser'])->name('users.delete');
+        Route::get('/users/{id}/activity', [AdminController::class, 'userActivity'])->name('users.activity');
+        
+        // Listing management routes
+        Route::get('/listings', [AdminController::class, 'manageListings'])->name('listings.index');
+        Route::get('/listings/pending', [AdminController::class, 'pendingListings'])->name('listings.pending');
+        Route::get('/listings/{id}/edit', [AdminController::class, 'editListing'])->name('listings.edit');
+        Route::get('/listings/{id}', [AdminController::class, 'viewListing'])->name('listings.show');
+        Route::put('/listings/{id}', [AdminController::class, 'updateListing'])->name('listings.update');
+        Route::post('/listings/{id}/approve', [AdminController::class, 'approveListing'])->name('listings.approve');
+        Route::post('/listings/{id}/reject', [AdminController::class, 'rejectListing'])->name('listings.reject');
+        Route::post('/listings/{id}/feature', [AdminController::class, 'featureListing'])->name('listings.feature');
+        Route::post('/listings/{id}/unfeature', [AdminController::class, 'unfeatureListing'])->name('listings.unfeature');
+        Route::delete('/listings/{id}', [AdminController::class, 'deleteListing'])->name('listings.delete');
+        Route::post('/logout', [AdminController::class, 'logout'])->name('logout');
+    });
+});
 Route::get('/mail-test', function () {
     try {
         Mail::raw('This is a test email', function ($message) {

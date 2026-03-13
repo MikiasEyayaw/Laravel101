@@ -25,12 +25,16 @@ class DatabaseSeeder extends Seeder
 
         $user=User::factory()->create([
             'name'=>'Miki',
-            'email'=>'miki@gmail.com'
+            'email'=>'miki@gmail.com',
+            'is_approved' => true
         ]);
 
         Listing::factory(6)->create([
             'user_id'=>$user->id
         ]);
+
+        // Seed admin users
+        $this->call(AdminSeeder::class);
         // Listing::create([
         //     'title' => 'Laravel Senior Developer',
         //     'tags' => 'laravel, javascript',

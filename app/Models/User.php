@@ -22,6 +22,9 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'is_approved',
+        'is_active',
+        'rejection_reason',
     ];
 
     /**
@@ -44,10 +47,56 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'is_approved' => 'boolean',
+            'is_active' => 'boolean',
+            'approved_at' => 'datetime',
+            'deactivated_at' => 'datetime',
         ];
     }
     //Relationship with Listings
     public function listings(){
         return $this->hasMany(Listing::class,'user_id');
+    }
+
+    // Check if user is approved
+    public function isApproved(): bool
+    {
+        return $this->is_approved;
+    }
+
+    // Check if user is active
+    public function isActive(): bool
+    {
+        return $this->is_active;
+    }
+
+    // Check if user can create listings
+    public function canCreateListings(): bool
+    {
+        return $this->is_approved && $this->is_active;
+    }
+
+    // Scope to get only approved users
+    public function scopeApproved($query)
+    {
+        return $query->where('is_approved', true);
+    }
+
+    // Scope to get pending users
+    public function scopePending($query)
+    {
+        return $query->where('is_approved', false);
+    }
+
+    // Scope to get active users
+    public function scopeActive($query)
+    {
+        return $query->where('is_active', true);
+    }
+
+    // Scope to get inactive users
+    public function scopeInactive($query)
+    {
+        return $query->where('is_active', false);
     }
 }
