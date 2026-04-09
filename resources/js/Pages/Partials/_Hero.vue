@@ -26,7 +26,7 @@
 
       <!-- Main Title -->
       <h1 class="font-black leading-none tracking-tight mb-4" style="font-family: 'Playfair Display', serif; font-size: clamp(4rem, 12vw, 7rem); color: #f0f0ec;">
-        Lara<span style="color: #f0a047;">Gigs</span>
+        Lara<span style="color: #f0a047;">Jobs</span>
       </h1>
 
       <!-- Subtitle -->
@@ -46,7 +46,7 @@
         <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
           <path stroke-linecap="round" stroke-linejoin="round" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"/>
         </svg>
-        Sign Up to List a Gig
+        Sign Up to List a Job
       </Link>
 
     </div>

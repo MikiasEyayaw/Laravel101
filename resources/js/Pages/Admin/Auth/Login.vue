@@ -17,7 +17,7 @@
             class="text-3xl font-black tracking-tight text-[#f0a047]"
             style="font-family: 'Playfair Display', serif;"
           >
-            LaraGigs
+            LaraJobs
           </span>
           <h2
             class="mt-3 text-xl font-black text-[#e8e0d0] tracking-tight"

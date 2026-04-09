@@ -25,7 +25,7 @@
         <!-- Logo -->
         <RouterLink to="/" class="flex items-center gap-2 group">
           <span class="text-xl font-black tracking-tight" style="font-family: 'Playfair Display', serif; color: #f0a047;">
-            LaraGigs
+            LaraJobs
           </span>
           <span class="hidden sm:block text-[10px] font-semibold tracking-[0.2em] uppercase text-[#6b5f4e] mt-0.5">
             Laravel Jobs
@@ -95,7 +95,7 @@
     <footer class="border-t border-[#2a2520] bg-[#0c0b09] mt-auto">
       <div class="max-w-6xl mx-auto px-6 py-10 flex flex-col sm:flex-row items-center justify-between gap-5">
         <div>
-          <span class="text-lg font-black" style="font-family: 'Playfair Display', serif; color: #f0a047;">LaraGigs</span>
+          <span class="text-lg font-black" style="font-family: 'Playfair Display', serif; color: #f0a047;">LaraJobs</span>
           <p class="text-xs text-white mt-0.5">&copy; {{ currentYear }} All rights reserved.</p>
         </div>
 

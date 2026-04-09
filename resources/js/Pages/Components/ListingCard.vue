@@ -63,7 +63,7 @@
     <!-- Card Footer -->
     <div class="flex items-center justify-between px-5 py-3" style="background: #131109; border-top: 1px solid #2a2520;">
       <Link :href="`/listings/${listing.id}`" class="text-xs font-semibold flex items-center gap-1 transition-all duration-200 group-hover:gap-2" style="color: #f0a047;">
-        View Gig
+        View Job
         <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
           <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/>
         </svg>

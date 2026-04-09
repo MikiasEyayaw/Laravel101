@@ -13,7 +13,7 @@
           <h2 class="text-2xl font-black uppercase mb-1 tracking-tight text-[#e8e0d0]" style="font-family: 'Playfair Display', serif;">
             Login
           </h2>
-          <p class="text-[#a49988] text-sm">Login into your account to post gigs</p>
+          <p class="text-[#a49988] text-sm">Login into your account to post jobs</p>
         </header>
 
         <!-- Form -->

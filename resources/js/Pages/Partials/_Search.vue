@@ -3,7 +3,7 @@
     <div class="max-w-3xl mx-auto px-6 py-8">
 
       <!-- Section label -->
-      <p class="text-xs font-semibold tracking-[0.2em] uppercase mb-3 text-white">Search Gigs</p>
+      <p class="text-xs font-semibold tracking-[0.2em] uppercase mb-3 text-white">Search Jobs</p>
 
       <form @submit.prevent="handleSearch">
         <div class="flex gap-3">

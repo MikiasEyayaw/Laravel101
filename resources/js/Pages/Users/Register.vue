@@ -24,7 +24,7 @@
 
           </h2>
 
-          <p class="text-[#c9beaf] text-sm">Create an account to post gigs</p>
+          <p class="text-[#c9beaf] text-sm">Create an account to post jobs</p>
 
         </header>
 

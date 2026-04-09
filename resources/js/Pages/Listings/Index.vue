@@ -17,9 +17,9 @@
       <div class="flex items-center justify-between mb-7">
         <div class="flex items-baseline gap-3">
           <h2 class="text-base font-bold" style="color: #e8e0d0; font-family: 'DM Sans', sans-serif;">
-            Available Gigs
+            Available Jobs
           </h2>
-          <span class="text-sm" style="color: #4a3f32;">
+          <span class="text-sm" style="color: #ffffff;">
             {{ listings.length }} listing{{ listings.length !== 1 ? 's' : '' }}
             <template v-if="searchKeywords"> for "<em class="not-italic" style="color: #c9a97a;">{{ searchKeywords }}</em>"</template>
             <template v-else-if="tagFilter"> tagged "<em class="not-italic" style="color: #c9a97a;">{{ tagFilter }}</em>"</template>

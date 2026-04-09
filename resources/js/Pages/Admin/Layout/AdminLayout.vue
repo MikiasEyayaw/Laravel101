@@ -9,7 +9,7 @@
         <Link href="/admin/dashboard" class="flex items-center gap-2 group">
           <span class="text-lg font-black tracking-tight text-[#f0a047]"
             style="font-family: 'Playfair Display', serif;">
-            LaraGigs
+            LaraJobs
           </span>
           <span
             class="text-[10px] font-bold tracking-[0.18em] uppercase text-[#8a7a66] bg-[#1a1815] border border-[#2a2520] px-1.5 py-0.5 rounded">
